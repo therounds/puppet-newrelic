@@ -22,8 +22,6 @@ Puppet::Type.type(:newrelic_notify).provide(:newrelic_notify) do
 
   desc "Send New Relic deployment notifications."
 
-  confine :feature => :newrelic_api
-
   def create
     return true
   end
