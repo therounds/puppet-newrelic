@@ -16,7 +16,7 @@
 # limitations under the License.
 #
 
-require 'newrelic_api' if Puppet.features.newrelic?
+require 'newrelic_api'
 
 Puppet::Type.type(:newrelic_notify).provide(:newrelic_notify) do
 
