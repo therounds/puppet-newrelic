@@ -27,11 +27,7 @@ Puppet::Type.type(:newrelic_notify).provide(:newrelic_notify) do
   end
 
   def exists?
-    begin
-      notify(resource)
-    rescue Exception => e
-      raise Puppet::Error, "Could not notify New Relic application #{resource[:name]}, failed with #{e}"
-    end
+    return true
   end
 
   def destroy
@@ -39,7 +35,11 @@ Puppet::Type.type(:newrelic_notify).provide(:newrelic_notify) do
   end
 
   def notify(resource)
-    NewRelicApi.api_key = resource[:api_key]
-    NewRelicApi::Deployment.create :app_id => "#{resource[:name]}", :user => "#{resource[:user]}", :description => "#{resource[:description]}", :revision => "#{resource[:revision]}"
+    begin
+      NewRelicApi.api_key = resource[:api_key]
+      NewRelicApi::Deployment.create :app_id => "#{resource[:name]}", :user => "#{resource[:user]}", :description => "#{resource[:description]}", :revision => "#{resource[:revision]}"
+    rescue Exception => e
+      raise Puppet::Error, "Could not notify New Relic application #{resource[:name]}, failed with #{e}"
+    end
   end
 end
